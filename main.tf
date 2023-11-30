@@ -16,7 +16,7 @@ resource "google_compute_network" "vpc_network" {
   routing_mode                    = "REGIONAL"
 }
 # PRIVATE SUBNETS
-resource "google_compute_subnetwork" "vpc_subnetwork" {
+resource "google_compute_subnetwork" "subnetwork_public" {
   name                     = "${var.name}-${local.type[0]}-subnetwork"
   ip_cidr_range            = var.ip_cidr_range[0]
   region                   = var.region
@@ -26,7 +26,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 }
 
 #PUBLIC SUBNETS
-resource "google_compute_subnetwork" "subnetwork" {
+resource "google_compute_subnetwork" "subnetwork_private" {
   name          = "${var.name}-${local.type[1]}-subnetwork"
   ip_cidr_range = var.ip_cidr_range[1]
   region        = var.region
@@ -38,7 +38,7 @@ resource "google_compute_subnetwork" "subnetwork" {
 # NAT ROUTER
 resource "google_compute_router" "router" {
   name    = "${var.name}-${local.type[1]}-router"
-  region  = google_compute_subnetwork.subnetwork[1].region
+  region  = google_compute_subnetwork.subnetwork_public.region
   network = google_compute_network.vpc_network.id
 }
 

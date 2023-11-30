@@ -1,7 +1,6 @@
 variable "project_id" {
   type        = string
   description = "Project ID"
-  default     = "<your-project-id>"
 }
 
 variable "region" {
@@ -13,7 +12,7 @@ variable "region" {
 variable "name" {
   type        = string
   description = "Name for this infrastructure"
-  default     = "<any-name>"
+  default     = "cloudroot"
 }
 
 variable "ip_cidr_range" {

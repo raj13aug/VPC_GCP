@@ -15,7 +15,9 @@ resource "google_compute_network" "vpc_network" {
   auto_create_subnetworks         = false
   routing_mode                    = "REGIONAL"
 }
-# PRIVATE SUBNETS
+
+#PUBLIC SUBNETS
+
 resource "google_compute_subnetwork" "subnetwork_public" {
   name                     = "${var.name}-${local.type[0]}-subnetwork"
   ip_cidr_range            = var.ip_cidr_range[0]
@@ -25,13 +27,14 @@ resource "google_compute_subnetwork" "subnetwork_public" {
   purpose                  = "PRIVATE"
 }
 
-#PUBLIC SUBNETS
+# PRIVATE SUBNETS
 resource "google_compute_subnetwork" "subnetwork_private" {
-  name          = "${var.name}-${local.type[1]}-subnetwork"
-  ip_cidr_range = var.ip_cidr_range[1]
-  region        = var.region
-  network       = google_compute_network.vpc_network.id
-  purpose       = "PUBLIC"
+  name                     = "${var.name}-${local.type[1]}-subnetwork"
+  ip_cidr_range            = var.ip_cidr_range[1]
+  region                   = var.region
+  network                  = google_compute_network.vpc_network.id
+  private_ip_google_access = true
+  purpose                  = "PUBLIC"
 }
 
 

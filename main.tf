@@ -28,24 +28,24 @@ resource "google_compute_subnetwork" "subnetwork_public" {
 
 # PRIVATE SUBNETS
 resource "google_compute_subnetwork" "subnetwork_private" {
-  name                     = "${var.name}-${local.type[1]}-subnetwork"
-  ip_cidr_range            = var.ip_cidr_range[1]
-  region                   = var.region
-  network                  = google_compute_network.vpc_network.id
-  private_ip_google_access = true
-  purpose                  = "PUBLIC"
+  name          = "${var.name}-${local.type[1]}-subnetwork"
+  ip_cidr_range = var.ip_cidr_range[1]
+  region        = var.region
+  network       = google_compute_network.vpc_network.id
+  #private_ip_google_access = true
+  purpose = "PUBLIC"
 }
 
 
 # NAT ROUTER
 resource "google_compute_router" "router" {
-  name    = "${var.name}-${local.type[1]}-router"
+  name    = "${var.name}-${local.type[0]}-router"
   region  = google_compute_subnetwork.subnetwork_public.region
   network = google_compute_network.vpc_network.id
 }
 
 resource "google_compute_router_nat" "router_nat" {
-  name                               = "${var.name}-${local.type[1]}-router-nat"
+  name                               = "${var.name}-${local.type[0]}-router-nat"
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"

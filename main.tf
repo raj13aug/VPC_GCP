@@ -44,17 +44,12 @@ resource "google_compute_router" "router" {
   network = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_address" "pub" {
-  name   = "public"
-  region = var.region
-}
 
 resource "google_compute_router_nat" "router_nat" {
   name                               = "${var.name}-${local.type[0]}-router-nat"
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
-  nat_ips                            = [google_compute_address.pub.self_link]
   source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
   subnetwork {
     name                    = "${var.name}-${local.type[1]}-subnetwork"

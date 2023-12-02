@@ -23,7 +23,6 @@ resource "google_compute_subnetwork" "subnetwork_public" {
   ip_cidr_range = var.ip_cidr_range[0]
   region        = var.region
   network       = google_compute_network.vpc_network.id
-  purpose       = "PRIVATE"
 }
 
 # PRIVATE SUBNETS
@@ -33,7 +32,6 @@ resource "google_compute_subnetwork" "subnetwork_private" {
   region                   = var.region
   network                  = google_compute_network.vpc_network.id
   private_ip_google_access = true
-  purpose                  = "PUBLIC"
 }
 
 
